@@ -2,7 +2,15 @@
 
 > Agent Atlas is an evidence-auditing research engine that extracts claims from a memo, traces them to sources, flags contradictions and unsupported assertions, and exports replayable trust records.
 
+![Claim-to-evidence audit flow](assets/agent-atlas-social-preview.png)
+
 Agent Atlas is a local, deterministic audit layer for an imported memo and a folder of evidence. It does not browse the web, call an LLM, make an investment recommendation, or replace investors, investment bankers, analysts, or VCs.
+
+## Portfolio snapshot
+
+- **Claim-to-evidence traceability:** maps extracted memo claims to normalized local evidence packets.
+- **Hard-stop contradiction gate:** makes imported-database and regulator contradictions explicit before a memo is trusted.
+- **Replayable audit artifacts:** exports canonical trust records, source fingerprints, and a deterministic replay manifest.
 
 ## What is in this release
 
@@ -16,6 +24,16 @@ The public surface is the tested imported-memo audit workflow:
 - A file-backed, synthetic five-case benchmark in [`trustbench_cases.json`](atlas_engine/trustbench_cases.json), executed by [`trustbench.py`](atlas_engine/trustbench.py).
 
 The supported input formats are local Markdown, text, CSV, PDF, DOCX, PPTX, and XLSX files. All committed fixtures are synthetic.
+
+## Evidence model
+
+| Term | Meaning in Agent Atlas |
+|---|---|
+| Claim | An auditable assertion deterministically extracted from the imported memo. |
+| Evidence packet | A normalized local source excerpt with provenance, locator data, and an evidence identifier. |
+| Hard stop | An imported-database or regulator contradiction that prevents a clean supported verdict. |
+| Canonical trust record | A stable, claim-level record containing status, evidence fingerprints, reasoning, and missing-evidence signals. |
+| Replay fingerprint | A deterministic SHA-256 fingerprint over the recorded audit inputs and trust-record fingerprints. |
 
 ## Architecture
 
@@ -69,6 +87,10 @@ print(result["verdict"])
 print(result["replay_manifest"]["replay_fingerprint"])
 PY
 ```
+
+### Synthetic example result
+
+The committed example has two supported claims and produces a `SUPPORTED` verdict. Its replay manifest has `hard_stop_count: 0` and a `sha256:` replay fingerprint. The exact fingerprint is input-dependent; it is a reproducibility check, not a quality score.
 
 ## Trust statuses
 
