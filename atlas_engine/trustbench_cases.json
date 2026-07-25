@@ -1,0 +1,72 @@
+[
+  {
+    "id": "clean_supported_memo",
+    "description": "Clean memo supported by imported market data.",
+    "workspace_files": {
+      "deal.md": "# Acme\nAcme is a synthetic diligence record.\n"
+    },
+    "import_files": {
+      "tracxn_export.csv": "company,funding_stage,employees,incorporation_year\nAcme,Seed,42,2021\n"
+    },
+    "memo": "# Memo\n- Acme funding stage is Seed.\n- Acme has 42 employees.\n- Acme incorporation year is 2021.\n",
+    "expected_contradictions": [],
+    "expected_unsupported": []
+  },
+  {
+    "id": "imported_market_contradiction",
+    "description": "Imported market database contradicts the memo funding stage.",
+    "workspace_files": {
+      "deal.md": "# Acme\nAcme is a synthetic diligence record.\n"
+    },
+    "import_files": {
+      "tracxn_export.csv": "company,funding_stage,employees\nAcme,Series B,42\n"
+    },
+    "memo": "# Memo\n- Acme funding stage is Seed.\n",
+    "expected_contradictions": ["claim_001"],
+    "expected_unsupported": []
+  },
+  {
+    "id": "regulator_contradiction",
+    "description": "A local registry export contradicts the memo incorporation year.",
+    "workspace_files": {
+      "deal.md": "# Acme\nAcme is a synthetic diligence record.\n"
+    },
+    "import_files": {
+      "mca_export.csv": "company,incorporation_year,director\nAcme,2021,Priya Shah\n"
+    },
+    "memo": "# Memo\n- Acme incorporation year is 2020.\n",
+    "regulators": ["mca"],
+    "expected_contradictions": ["claim_001"],
+    "expected_unsupported": []
+  },
+  {
+    "id": "unsupported_claim",
+    "description": "Memo includes a traction claim unsupported by the local evidence set.",
+    "workspace_files": {
+      "deal.md": "# Acme\nAcme is a synthetic diligence record.\n"
+    },
+    "import_files": {
+      "tracxn_export.csv": "company,funding_stage,employees\nAcme,Seed,42\n"
+    },
+    "memo": "# Memo\n- Acme has 100 enterprise customers.\n",
+    "expected_contradictions": [],
+    "expected_unsupported": ["claim_001"]
+  },
+  {
+    "id": "import_drift",
+    "description": "Imported snapshot drift marks the local registry for manual review.",
+    "workspace_files": {
+      "deal.md": "# Acme\nAcme is a synthetic diligence record.\n"
+    },
+    "seed_import_files": {
+      "tracxn_export.csv": "company,employees\nAcme,42\n"
+    },
+    "import_files": {
+      "tracxn_export.csv": "company,employees\nAcme,58\n"
+    },
+    "memo": "# Memo\n- Acme has 58 employees.\n",
+    "expected_contradictions": [],
+    "expected_unsupported": [],
+    "expected_drift": 1
+  }
+]
