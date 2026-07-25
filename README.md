@@ -43,7 +43,7 @@ git clone https://github.com/Heman10x-NGU/agent-atlas-trust-audit.git
 cd agent-atlas-trust-audit
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install -e .
+python -m pip install --no-build-isolation -e .
 python -m unittest discover -v
 ```
 
