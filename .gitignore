@@ -36,3 +36,10 @@ private/
 .DS_Store
 .idea/
 .vscode/
+
+# Explicitly public, synthetic documentation fixtures
+!examples/
+!examples/workspace/
+!examples/workspace/record.md
+!examples/imports/
+!examples/imports/market_export.csv
