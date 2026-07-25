@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Local Atlas workspaces and generated state
+.atlas/
+data/
+workspace/
+imports/
+audit_bundles/
+bundles/
+checkpoints/
+cache/
+*.sqlite
+*.sqlite3
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Generated reports and private source material
+reports/
+private/
+*.audit-bundle/
+
+# OS/editor files
+.DS_Store
+.idea/
+.vscode/
